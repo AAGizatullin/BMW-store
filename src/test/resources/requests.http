@@ -1,0 +1,97 @@
+###
+
+POST http://localhost:8080/media/bytes
+Content-Type: image/jpeg
+
+< javalog.jpg
+
+> {%
+ client.global.set('mediaName', response.body.name);
+
+ %}
+
+
+###
+
+POST http://localhost:8080/media/multipart
+Content-Type: multipart/form-data; boundary=WebBoundary
+
+--WebBoundary
+Content-Disposition: form-data; name="file"; filename="javalog.jpg"
+Content-Type: image/jpeg
+
+< javalog.jpg
+--WebBoundary--
+
+###
+
+POST http://localhost:8080/media/multi-multipart
+Content-Type: multipart/form-data; boundary=WebBoundary
+
+--WebBoundary
+Content-Disposition: form-data; name="files"; filename="javalog.jpg"
+Content-Type: image/jpeg
+
+< javalog.jpg
+--WebBoundary
+Content-Disposition: form-data; name="files"; filename="music.mp3"
+Content-Type: audio/mpeg
+
+< music.mp3
+--WebBoundary--
+
+###
+
+GET http://localhost:8080/products/getAll
+
+###
+
+GET http://localhost:8080/products/getById?id=6
+
+###
+
+GET http://localhost:8080/products/getById/1
+
+###
+
+POST http://localhost:8080/products/save
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "BMW 5",
+  "price": 5100000,
+  "qty": 12
+}
+
+###
+
+POST http://localhost:8080/products/save
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "BMW 6",
+  "price": 6200000,
+  "qty": 8,
+  "image": "{{mediaName}}"
+}
+
+###
+
+POST http://localhost:8080/products/removeById?id=9
+
+###
+
+POST http://localhost:8080/products/removeById/4
+
+###
+
+POST http://localhost:8080/sales/register
+Content-Type: application/json
+
+{
+  "productId": 6,
+  "price": 7000000,
+  "qty": 2
+}
